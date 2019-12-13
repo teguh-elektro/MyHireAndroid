@@ -40,21 +40,24 @@ class Hirring extends Component {
     const {project} = this.state;
     const selected = project[id];
     console.log(selected);
-    console.log(this.props.id);
-    
-      try{
+    console.log(id);
+    try{
       Axios.defaults.headers.common['Authorization'] = this.props.token;
-      await Axios.put('http://18.233.99.1:3000/myhire//changeproject',
+      const auth = await Axios.put('http://18.233.99.1:3000/myhire/changeproject',
         {
-          id: project.id,
-          name: project.name,
-          skill: project.skill,
-          description: project.description,
-          id_engineer: 0,
-          budget: project.budget,
-          done: project.done
+          id: selected.id,
+          done: selected.done,
+          name: selected.name,
+          budget: selected.budget,
+          description: selected.description,
+          skill: selected.skill,
+          id_engineer: this.props.id,
         }
       )
+      
+      
+      console.log('send!');
+      
     }catch(error){
       console.log(error)
     }

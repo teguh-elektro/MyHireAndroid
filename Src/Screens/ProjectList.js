@@ -80,7 +80,7 @@ class ProjectList extends React.Component {
                     <Body>
                     <Text>{data.id}</Text>
                 <Text>{data.name}</Text>
-                <Text note>{data.name_engineer}</Text>
+                <Text note>{data.id_engineer}</Text>
                     </Body>
                     <Right>
                     <Button
