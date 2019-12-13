@@ -144,30 +144,52 @@ class Home extends React.Component {
                         style={{height: 240, width: 240, flex: 1, right : 8, borderRadius  : 10}}
                         
                     />
-                    <View style={{justifyContent : 'center', alignItems : 'center', flex : 0, left : 70}}>
-                    <Text> 
-                    {product.name}
-                    </Text>
-                    <Text>
-                    skill:
-                    {product.skill}
-                    </Text>
+                    <View style={{ alignItems : 'center', flex : 0, left : 70}}>
+                      <Text style={{justifyContent : 'center'}}> 
+                        {product.name}
+                      </Text>
+                      <Text
+                        style={{
+                          fontSize:16,
+                          color: "#3F51B5",
+                          marginTop:10
+                        }}
+                      >
+                        {product.skill}
+                      </Text>
                     </View>
                 </Body>
                 </CardItem>
-                <CardItem>
-                <Left>
-                    <Button transparent textStyle={{color: '#87838B'}}>
-                    <Icon name="logo-github" /> 
-                    <Text>{product.project}</Text>
-                    </Button>
+                <CardItem style={{flex: 1}}>
+                  <Icon name="settings" 
+                        style={{
+                          color: "#3F51B5"
+                  }}/> 
+                  <Text>{(product.project)?product.project:'0'}</Text>
+                  <Right/>
+                  <Icon name="pie" 
+                        style={{
+                          color: "#3F51B5"
+                  }}/> 
+                  <Text>{(product.done)?(product.done/product.project*100):'0'}%</Text>
+                {/* <Left>
+                    <Icon name="logo-github" 
+                      style={{
+                        fontSize:16,
+                        color: "#3F51B5",
+                        marginTop:10
+                    }}/> 
+                    <Text>Project:{product.project}</Text>
                 </Left>
                 <Right>
-                <Button transparent textStyle={{color: '#87838B'}}>
-                    <Icon name="alarm" /> 
-                    <Text>{product.done}</Text>
-                    </Button>
-                </Right>
+                    <Icon name="alarm" 
+                      style={{
+                        fontSize:16,
+                        color: "#3F51B5",
+                        marginTop:10
+                    }}/> 
+                    <Text>Rate:{product.done}</Text>
+                </Right> */}
                 </CardItem>
             </Card>
             ))  
@@ -211,7 +233,7 @@ class Home extends React.Component {
                 badge vertical 
               >
               <Badge><Text>2</Text></Badge>
-                <Icon name="apps" />
+                <Icon name="settings" />
                 <Text>Project</Text>
               </Button>
             </FooterTab>

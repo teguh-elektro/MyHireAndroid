@@ -31,7 +31,7 @@ export default App = () => {
     // Redux: Global Store
     <Provider store={store}>
       <PersistGate 
-        loading={<Text> LOLOLOL </Text>}
+        loading={<Text> LOADING </Text>}
         persistor={persistor}
       >
         <AppContainer />

@@ -61,7 +61,7 @@ class EngineerProject extends React.Component {
             <Header />
             <Content>
               <View>
-                <Text>
+                <Text style={{margin: 30, textAlign: "center"}}>
                   Project list is empty!
                 </Text>
               </View>
@@ -78,26 +78,27 @@ class EngineerProject extends React.Component {
                 project.map((data, index) => (
                   <ListItem key={index}>
                     <Body>
-                      <Text>{data.name}</Text>
-                      <Text note>{data.id_company}</Text>
+                      <Text style={{margin: 15}}>{data.name}</Text>
                       <Text note>Rp.{data.budget}</Text>
                     </Body>
-                    <Right>
+                    <View>
                     {
                         (data.status != '1')?
                           <Button      
                             onPress={() => {this._changeStatus(data.id, 1)}}
+                            style={{margin: 15, borderRadius: 10}} 
                           >
                           <Text>Decline</Text>
                           </Button>
                           :
                           <Button      
                           onPress={() => {this._changeStatus(data.id, 0)}}
+                          style={{margin: 15, borderRadius: 10}} 
                         >
                         <Text>Accept</Text>
                         </Button>
                     }
-                    </Right>
+                    </View>
                   </ListItem>
                 ))
             }

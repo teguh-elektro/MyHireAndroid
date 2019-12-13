@@ -92,6 +92,7 @@ let isLogin = 0;
             <Item floatingLabel style={{margin: 15}}>
               <Label>Password</Label>
               <Input 
+                secureTextEntry={true}
                 onChangeText={value => this.setState({password: value})}
               />
             </Item>
