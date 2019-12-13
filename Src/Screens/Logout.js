@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { login } from '../../redux/actions/authActions';
 import { increaseCounter, decreaseCounter } from '../../redux/actions/counterActions';
 import { jwt } from '../../redux/actions/tokenAction'
+import { role } from '../../redux/actions/categoryAction'
 import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -53,9 +54,10 @@ import { from } from 'rxjs';
             await Axios.get('http://18.233.99.1:3000/myhire/logout')
             Axios.defaults.headers.common['Authorization'] = '0';
             await this.props.reduxLogin(false)
-            await this.props.navigation.navigate('Signin')
+            await this.props.reduxCategory(0)
+            await this.props.navigation.navigate('Home')
         }catch(error){
-          await this.props.navigation.navigate('Signin')
+          await this.props.navigation.navigate('Home')
             console.log(error);
         }
     }
@@ -67,7 +69,13 @@ import { from } from 'rxjs';
                 onPress={() => {this._sendLogout()}}
                 style={{margin: 15, borderRadius: 10}} 
                 // onPress={this.props.loggedIn === false ? () => this.props.reduxLogin(true) : () => this.props.reduxLogin(false)}
-            ></Button>
+            >
+              <Left/>
+                <Text>
+                Sign Out
+                </Text>
+              <Right />
+            </Button>
         </Container>
       )
     }
@@ -96,7 +104,7 @@ const mapStateToProps = (state) => {
     counter: state.counterReducer.counter,
     loggedIn: state.authReducer.loggedIn,
     token: state.tokenReducer.token,
-    engineerList: state
+    category: state.categoryReducer.category
   };
 };
 
@@ -113,7 +121,11 @@ const mapDispatchToProps = (dispatch) => {
 
       reduxToken: (token) => dispatch(jwt(token)),
 
-      reduxEngineer: () => dispatch(getEngineer())
+      reduxEngineer: () => dispatch(getEngineer()),
+
+      reduxCategory: (category) => dispatch(role(category)),
+
+      
    };
 };
 

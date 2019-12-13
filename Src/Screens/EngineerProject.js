@@ -11,7 +11,7 @@ import { jwt } from '../../redux/actions/tokenAction'
 import React, { Component } from 'react';
 import { Container, Header, Content, List, ListItem, Left, Body, Right, Thumbnail, Text, View, Button } from 'native-base';
 
-class ProjectList extends React.Component {
+class EngineerProject extends React.Component {
     constructor(props){
       super(props);
       this.state={
@@ -36,15 +36,15 @@ class ProjectList extends React.Component {
         }
     }
 
-    _changeDone = async(id, done) =>{
+    _changeStatus = async(id, status) =>{
       try{
         console.log(id);
         
         Axios.defaults.headers.common['Authorization'] = this.props.token;
-        const auth = await Axios.put('http://18.233.99.1:3000/myhire/doneproject',
+        const auth = await Axios.put('http://18.233.99.1:3000/myhire/statusproject',
           {
             id,
-            done
+            status 
           }
         )
         this._getProject()
@@ -79,28 +79,23 @@ class ProjectList extends React.Component {
                   <ListItem>
                     <Body>
                       <Text>{data.name}</Text>
-                      <Text note>{data.id_engineer}</Text>
+                      <Text note>{data.id_company}</Text>
+                      <Text note>Rp.{data.budget}</Text>
                     </Body>
                     <Right>
                     {
-                        (data.done != '1')?
+                        (data.status != '1')?
                           <Button      
-                            onPress={() => {this._changeDone(data.id, 1)}}
+                            onPress={() => {this._changeStatus(data.id, 1)}}
                           >
-                          <Text>Done</Text>
+                          <Text>Accept</Text>
                           </Button>
                           :
                           <Button      
-                          onPress={() => {this._changeDone(data.id, 0)}}
+                          onPress={() => {this._changeStatus(data.id, 0)}}
                         >
-                        <Text>Progress</Text>
+                        <Text>Decline</Text>
                         </Button>
-                    }
-                    {
-                      (data.status != '1')?
-                        <Text note style={{backgroundColor: 'red', color: 'white'}}>pedding</Text> 
-                        :
-                        <Text note style={{backgroundColor: 'green', color: 'white'}}>accept</Text>
                     }
                     </Right>
                   </ListItem>
@@ -142,5 +137,5 @@ const mapStateToProps = (state) => {
   };
   
   // Exports
-  export default connect(mapStateToProps, mapDispatchToProps)(ProjectList);
+  export default connect(mapStateToProps, mapDispatchToProps)(EngineerProject);
 

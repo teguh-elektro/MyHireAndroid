@@ -7,6 +7,7 @@ import { login } from '../../redux/actions/authActions';
 import { increaseCounter, decreaseCounter } from '../../redux/actions/counterActions';
 import { getEngineer } from '../../redux/actions/engineerActions'
 import { jwt } from '../../redux/actions/tokenAction'
+import { role } from '../../redux/actions/categoryAction'
 import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -58,6 +59,7 @@ let isLogin = 0;
               await console.log(this.props.token);
             Axios.defaults.headers.common['Authorization'] = auth.data.result.token;
              await this.props.reduxLogin(true)
+             await this.props.reduxCategory(auth.data.result.category)
              await this.props.reduxToken(auth.data.result.token)
               await this.props.navigation.navigate('Home')
         }catch(error){
@@ -145,7 +147,8 @@ const mapStateToProps = (state) => {
       counter: state.counterReducer.counter,
       loggedIn: state.authReducer.loggedIn,
       token: state.tokenReducer.token,
-      engineerList: state
+      id: state.engineerReducer.id,
+      category: state.categoryReducer.category
     };
   };
   
@@ -162,7 +165,9 @@ const mapStateToProps = (state) => {
 
         reduxToken: (token) => dispatch(jwt(token)),
   
-        reduxEngineer: () => dispatch(getEngineer())
+        reduxEngineer: () => dispatch(getEngineer()),
+
+        reduxCategory: (category) => dispatch(role(category)),
      };
   };
   

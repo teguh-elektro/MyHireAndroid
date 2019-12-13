@@ -12,7 +12,7 @@ import Home from './Home'
 import ProjectList from './ProjectList'
 import Hirring from './hirring'
 import Review from './Review'
-
+import EngineerProject from './EngineerProject'
 const AppNavigator = createStackNavigator(
     {
       Home: Home,
@@ -23,7 +23,8 @@ const AppNavigator = createStackNavigator(
       Logout: Logout,
       ProjectList: ProjectList  ,
       Hirring: Hirring,
-      Review: Review
+      Review: Review,
+      EngineerProject: EngineerProject
     },
     {
         headerMode: 'none',

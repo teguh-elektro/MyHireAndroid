@@ -18,6 +18,7 @@ import { login } from '../../redux/actions/authActions';
 import { increaseCounter, decreaseCounter } from '../../redux/actions/counterActions';
 import { jwt } from '../../redux/actions/tokenAction'
 import { getEngineer } from '../../redux/actions/engineerActions'
+import { role } from '../../redux/actions/categoryAction'
 import { 
     Container, 
     Header, 
@@ -52,19 +53,20 @@ class Home extends React.Component {
         this.state = {
           data: [],
           isLoading: true,
-          username: '',
-          password: '',
-          category: '0'
+          search: ''
         };
       }
 
       componentDidMount(){
+        // if(this.props.loggedIn) 
           this.getData()
       }
 
     getData = async () => {
         try {
-            const result = await Axios.get('http://18.233.99.1:3000/engineer/read')
+            const result = await Axios.get(`http://18.233.99.1:3000/engineer/read`)
+            console.log(result.data.result);
+            
             this.setState({data: result.data, isLoading: false})
         } catch (error) {
             console.log(error);
@@ -77,10 +79,24 @@ class Home extends React.Component {
       this.props.navigation.navigate('Review')
     }
 
+    searchSkill = async()=> {
+      try {
+          const search = this.state.search
+          console.log(search);
+          
+          const result = await Axios.get(`http://18.233.99.1:3000/myhire/search/?skill=${search}`)
+          console.log(result.data.result);
+          this.setState({data: result.data.result, isLoading: false})
+      } catch (error) {
+          console.log(error);
+      }
+    }
+
     render() {
 
         const {data, isLoading} = this.state;
-
+        console.log(this.props.category);
+        
         
         if(isLoading){
             return(
@@ -91,21 +107,35 @@ class Home extends React.Component {
         <Container>
         <Header searchBar rounded
                 autoCorrect={false}>
-            <Item>
+           {
+             (this.props.loggedIn)&&
+             <Item>
                 <Icon name="ios-search" />
-                <Input placeholder="Search" />
-                    <Icon name="ios-people" />
+                <Input placeholder="Search" 
+                  onChangeText={value => this.setState({search: value})}
+                />
             </Item>
-            <Button transparent>
-                <Text>Search</Text>
-            </Button>
+           }
+           {
+             
+             (this.props.loggedIn)&&
+             <Left>
+               <Button
+                onPress = {()=>this.searchSkill()}
+               >
+                  <Text>Search</Text>
+                </Button>
+             </Left>
+             
+           }
+            
         </Header>        
         <Content>
         
         {
             data.map(product => (
             <Card style={{flex: 0}} >
-                <CardItem button onPress={() => {this._setIdEngineer(product.created_by)}}>
+                <CardItem button onPress={() => {(this.props.category)&&this._setIdEngineer(product.created_by)}}>
                 <Body>
                     <Image 
                         source={{uri: `http://18.233.99.1:3000/myhire/file/${product.photo}`}} 
@@ -169,7 +199,12 @@ class Home extends React.Component {
             </FooterTab>
             <FooterTab>
               <Button full 
-                onPress={() => this.props.navigation.navigate('ProjectList')}
+                onPress={() =>{
+                  (this.props.category)?
+                  this.props.navigation.navigate('ProjectList'):
+                  this.props.navigation.navigate('EngineerProject');
+                 } 
+                }
                 badge vertical 
               >
               <Badge><Text>2</Text></Badge>
@@ -212,7 +247,8 @@ const mapStateToProps = (state) => {
       counter: state.counterReducer.counter,
       loggedIn: state.authReducer.loggedIn,
       token: state.tokenReducer.token,
-      id: state.engineerReducer.id
+      id: state.engineerReducer.id,
+      category: state.categoryReducer.category
     };
   };
   
@@ -229,7 +265,8 @@ const mapStateToProps = (state) => {
 
         reduxToken: (token) => dispatch(jwt(token)),
   
-        reduxEngineer: (id) => dispatch(getEngineer(id))
+        reduxEngineer: (id) => dispatch(getEngineer(id)),
+        reduxCategory: (category) => dispatch(role(category)),
      };
   };
   
