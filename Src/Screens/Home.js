@@ -107,9 +107,10 @@ class Home extends React.Component {
         <Container>
         <Header searchBar rounded
                 autoCorrect={false}>
+           
            {
              (this.props.loggedIn)&&
-             <Item>
+             <Item style={{left:20}}>
                 <Icon name="ios-search" />
                 <Input placeholder="Search" 
                   onChangeText={value => this.setState({search: value})}
@@ -119,11 +120,11 @@ class Home extends React.Component {
            {
              
              (this.props.loggedIn)&&
-             <Left>
+             <Left style={{left:20}}>
                <Button
                 onPress = {()=>this.searchSkill()}
                >
-                  <Text>Search</Text>
+                  <Text>Go</Text>
                 </Button>
              </Left>
              
@@ -134,21 +135,24 @@ class Home extends React.Component {
         
         {
             data.map((product, index) => (
-            <Card style={{flex: 0}} key={index}>
+            <Card style={{flex: 0, justifyContent :'center', width : 260, left : 30}} key={index}>
                 <CardItem button onPress={() => {(this.props.category)&&this._setIdEngineer(product.created_by)}}>
                 <Body>
+                    
                     <Image 
                         source={{uri: `http://192.168.1.16:3000/myhire/file/${product.photo}`}} 
-                        style={{height: 240, width: 240, flex: 1}}
+                        style={{height: 240, width: 240, flex: 1, right : 8, borderRadius  : 10}}
                         
                     />
-                    <Text>
+                    <View style={{justifyContent : 'center', alignItems : 'center', flex : 0, left : 70}}>
+                    <Text> 
                     {product.name}
                     </Text>
                     <Text>
                     skill:
                     {product.skill}
                     </Text>
+                    </View>
                 </Body>
                 </CardItem>
                 <CardItem>
@@ -167,8 +171,7 @@ class Home extends React.Component {
                 </CardItem>
             </Card>
             ))  
-    } 
-        
+        } 
         </Content>
         
         

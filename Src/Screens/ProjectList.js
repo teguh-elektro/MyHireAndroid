@@ -9,7 +9,7 @@ import { getEngineer } from '../../redux/actions/engineerActions'
 import { jwt } from '../../redux/actions/tokenAction'
 
 import React, { Component } from 'react';
-import { Container, Header, Content, List, ListItem, Left, Body, Right, Thumbnail, Text, View, Button } from 'native-base';
+import { Container, Header, Content, List, ListItem, Left, Body, Right, Thumbnail, Text, View, Button, Icon } from 'native-base';
 
 class ProjectList extends React.Component {
     constructor(props){
@@ -59,19 +59,21 @@ class ProjectList extends React.Component {
         return(
           <Container>
             <Header>
-              <Left>
+              <Right>
                 <Button
                   onPress = {()=>{this.props.navigation.navigate('AddProject')}}
                 >
+                  
                   <Text>
                     Add Project
                   </Text>
+                  <Icon name="add-circle" />
                 </Button>
-              </Left>
+                </Right>
             </Header>
             <Content>
               <View>
-                <Text>
+                <Text style={{margin: 30, textAlign: "center"}}>
                   Project list is empty!
                 </Text>
               </View>
@@ -82,15 +84,17 @@ class ProjectList extends React.Component {
       return (
         <Container>
         <Header>
-          <Left>
+          <Right>
             <Button
               onPress = {()=>{this.props.navigation.navigate('AddProject')}}
             >
+               
               <Text>
                 Add Project
               </Text>
+              <Icon name="add-circle" />
             </Button>
-          </Left>
+            </Right>
         </Header>
         <Content>
           <List>
@@ -98,31 +102,34 @@ class ProjectList extends React.Component {
                 project.map((data, index) => (
                   <ListItem key={index}>
                     <Body>
-                      <Text>{data.name}</Text>
-                      <Text note>{data.id_engineer}</Text>
+                      <Text style={{margin: 15}}>{data.name}</Text>
+                      {/* <Text note>{data.id_engineer}</Text> */}
+                      {
+                      (data.status != '1')?
+                        <Text note style={{borderRadius: 3, textAlign: "center", backgroundColor: 'red', color: 'white', width: 70}}>Pending</Text> 
+                        :
+                        <Text note style={{borderRadius: 3, textAlign: "center",backgroundColor: 'green', color: 'white', width: 70}}>Accept</Text>
+                      }
                     </Body>
-                    <Right>
+                    <View>
                     {
                         (data.done != '1')?
-                          <Button      
+                          <Button 
+                          style={{margin: 15, borderRadius: 10}}      
                             onPress={() => {this._changeDone(data.id, 1)}}
                           >
                           <Text>Progress</Text>
                           </Button>
                           :
                           <Button      
+                          style={{margin: 15, borderRadius: 10}} 
                           onPress={() => {this._changeDone(data.id, 0)}}
                         >
                         <Text>Done</Text>
                         </Button>
                     }
-                    {
-                      (data.status != '1')?
-                        <Text note style={{backgroundColor: 'red', color: 'white'}}>pedding</Text> 
-                        :
-                        <Text note style={{backgroundColor: 'green', color: 'white'}}>accept</Text>
-                    }
-                    </Right>
+                    
+                   </View>
                   </ListItem>
                 ))
             }

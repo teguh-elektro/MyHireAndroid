@@ -65,6 +65,10 @@ import { from } from 'rxjs';
     render(){
       return(
         <Container>
+           <View
+            style={{height:200}}
+           />
+           <Text style={{textAlign: "center", fontSize: 16}}>Are Sure To Log Out?</Text>
            <Button 
                 onPress={() => {this._sendLogout()}}
                 style={{margin: 15, borderRadius: 10}} 
@@ -72,7 +76,7 @@ import { from } from 'rxjs';
             >
               <Left/>
                 <Text>
-                Sign Out
+                  Yes
                 </Text>
               <Right />
             </Button>
