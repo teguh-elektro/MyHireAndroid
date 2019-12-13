@@ -26,7 +26,7 @@ class Hirring extends Component {
   _getProject = async () => {
       try{
         Axios.defaults.headers.common['Authorization'] = this.props.token;
-        const auth = await Axios.get('http://18.233.99.1:3000/myhire/readproject')
+        const auth = await Axios.get('http://192.168.1.16:3000/myhire/readproject')
         console.log(auth.data.result);
         await this.setState({
           project: auth.data.result
@@ -43,7 +43,7 @@ class Hirring extends Component {
     console.log(id);
     try{
       Axios.defaults.headers.common['Authorization'] = this.props.token;
-      const auth = await Axios.put('http://18.233.99.1:3000/myhire/changeproject',
+      const auth = await Axios.put('http://192.168.1.16:3000/myhire/changeproject',
         {
           id: selected.id,
           done: selected.done,
@@ -54,10 +54,8 @@ class Hirring extends Component {
           id_engineer: this.props.id,
         }
       )
-      
-      
       console.log('send!');
-      
+      this.props.navigation.navigate('Review')
     }catch(error){
       console.log(error)
     }
@@ -85,7 +83,7 @@ class Hirring extends Component {
               >
                 {
                   project.map((data, index) => (
-                    <Picker.Item label={data.name} value={index} />
+                    <Picker.Item label={data.name} value={index} key={index}/>
                   ))
                 }
               </Picker>

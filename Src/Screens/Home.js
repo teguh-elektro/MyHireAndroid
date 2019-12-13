@@ -64,7 +64,7 @@ class Home extends React.Component {
 
     getData = async () => {
         try {
-            const result = await Axios.get(`http://18.233.99.1:3000/engineer/read`)
+            const result = await Axios.get(`http://192.168.1.16:3000/engineer/read`)
             console.log(result.data.result);
             
             this.setState({data: result.data, isLoading: false})
@@ -84,7 +84,7 @@ class Home extends React.Component {
           const search = this.state.search
           console.log(search);
           
-          const result = await Axios.get(`http://18.233.99.1:3000/myhire/search/?skill=${search}`)
+          const result = await Axios.get(`http://192.168.1.16:3000/myhire/search/?skill=${search}`)
           console.log(result.data.result);
           this.setState({data: result.data.result, isLoading: false})
       } catch (error) {
@@ -133,12 +133,12 @@ class Home extends React.Component {
         <Content>
         
         {
-            data.map(product => (
-            <Card style={{flex: 0}} >
+            data.map((product, index) => (
+            <Card style={{flex: 0}} key={index}>
                 <CardItem button onPress={() => {(this.props.category)&&this._setIdEngineer(product.created_by)}}>
                 <Body>
                     <Image 
-                        source={{uri: `http://18.233.99.1:3000/myhire/file/${product.photo}`}} 
+                        source={{uri: `http://192.168.1.16:3000/myhire/file/${product.photo}`}} 
                         style={{height: 240, width: 240, flex: 1}}
                         
                     />
@@ -160,7 +160,7 @@ class Home extends React.Component {
                 </Left>
                 <Right>
                 <Button transparent textStyle={{color: '#87838B'}}>
-                    <Icon name="logo-github" /> 
+                    <Icon name="alarm" /> 
                     <Text>{product.done}</Text>
                     </Button>
                 </Right>

@@ -26,7 +26,7 @@ class ProjectList extends React.Component {
     _getProject = async () => {
         try{
           Axios.defaults.headers.common['Authorization'] = this.props.token;
-          const auth = await Axios.get('http://18.233.99.1:3000/myhire/readproject')
+          const auth = await Axios.get('http://192.168.1.16:3000/myhire/readproject')
           console.log(auth.data.result);
           await this.setState({
             project: auth.data.result
@@ -41,7 +41,7 @@ class ProjectList extends React.Component {
         console.log(id);
         
         Axios.defaults.headers.common['Authorization'] = this.props.token;
-        const auth = await Axios.put('http://18.233.99.1:3000/myhire/doneproject',
+        const auth = await Axios.put('http://192.168.1.16:3000/myhire/doneproject',
           {
             id,
             done
@@ -58,7 +58,17 @@ class ProjectList extends React.Component {
       if(!project.length) {
         return(
           <Container>
-            <Header />
+            <Header>
+              <Left>
+                <Button
+                  onPress = {()=>{this.props.navigation.navigate('AddProject')}}
+                >
+                  <Text>
+                    Add Project
+                  </Text>
+                </Button>
+              </Left>
+            </Header>
             <Content>
               <View>
                 <Text>
@@ -71,12 +81,22 @@ class ProjectList extends React.Component {
       }
       return (
         <Container>
-        <Header />
+        <Header>
+          <Left>
+            <Button
+              onPress = {()=>{this.props.navigation.navigate('AddProject')}}
+            >
+              <Text>
+                Add Project
+              </Text>
+            </Button>
+          </Left>
+        </Header>
         <Content>
           <List>
             {
-                project.map(data => (
-                  <ListItem>
+                project.map((data, index) => (
+                  <ListItem key={index}>
                     <Body>
                       <Text>{data.name}</Text>
                       <Text note>{data.id_engineer}</Text>
@@ -87,13 +107,13 @@ class ProjectList extends React.Component {
                           <Button      
                             onPress={() => {this._changeDone(data.id, 1)}}
                           >
-                          <Text>Done</Text>
+                          <Text>Progress</Text>
                           </Button>
                           :
                           <Button      
                           onPress={() => {this._changeDone(data.id, 0)}}
                         >
-                        <Text>Progress</Text>
+                        <Text>Done</Text>
                         </Button>
                     }
                     {

@@ -51,7 +51,7 @@ import { from } from 'rxjs';
         
         try{
             Axios.defaults.headers.common['Authorization'] = this.props.token;
-            await Axios.get('http://18.233.99.1:3000/myhire/logout')
+            await Axios.get('http://192.168.1.16:3000/myhire/logout')
             Axios.defaults.headers.common['Authorization'] = '0';
             await this.props.reduxLogin(false)
             await this.props.reduxCategory(0)

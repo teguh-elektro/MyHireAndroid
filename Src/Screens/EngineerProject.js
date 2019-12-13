@@ -26,7 +26,7 @@ class EngineerProject extends React.Component {
     _getProject = async () => {
         try{
           Axios.defaults.headers.common['Authorization'] = this.props.token;
-          const auth = await Axios.get('http://18.233.99.1:3000/myhire/readproject')
+          const auth = await Axios.get('http://192.168.1.16:3000/myhire/readproject')
           console.log(auth.data.result);
           await this.setState({
             project: auth.data.result
@@ -41,7 +41,7 @@ class EngineerProject extends React.Component {
         console.log(id);
         
         Axios.defaults.headers.common['Authorization'] = this.props.token;
-        const auth = await Axios.put('http://18.233.99.1:3000/myhire/statusproject',
+        const auth = await Axios.put('http://192.168.1.16:3000/myhire/statusproject',
           {
             id,
             status 
@@ -75,8 +75,8 @@ class EngineerProject extends React.Component {
         <Content>
           <List>
             {
-                project.map(data => (
-                  <ListItem>
+                project.map((data, index) => (
+                  <ListItem key={index}>
                     <Body>
                       <Text>{data.name}</Text>
                       <Text note>{data.id_company}</Text>
@@ -88,13 +88,13 @@ class EngineerProject extends React.Component {
                           <Button      
                             onPress={() => {this._changeStatus(data.id, 1)}}
                           >
-                          <Text>Accept</Text>
+                          <Text>Decline</Text>
                           </Button>
                           :
                           <Button      
                           onPress={() => {this._changeStatus(data.id, 0)}}
                         >
-                        <Text>Decline</Text>
+                        <Text>Accept</Text>
                         </Button>
                     }
                     </Right>

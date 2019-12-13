@@ -50,7 +50,7 @@ let isLogin = 0;
         isLogin = 0; 
         try{
             
-          const auth = await Axios.post('http://18.233.99.1:3000/myhire/login',
+          const auth = await Axios.post('http://192.168.1.16:3000/myhire/login',
               {
                   username: this.state.username,
                   password: this.state.password
