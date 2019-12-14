@@ -56,7 +56,7 @@
 //   async getMyData(){
 //    try{
 //     Axios.defaults.headers.common['Authorization'] = this.props.token;
-//     const profile = await Axios.get('http://192.168.1.16:3000/myhire/by/')
+//     const profile = await Axios.get('http://18.233.99.1:3000/myhire/by/')
     
 //     await this.setState({ 
 //       MyProfile: profile.data.result[0]
@@ -77,7 +77,7 @@
 //             <Col style={{ backgroundColor: '', height: 240 }}>
               
 //                 <Image 
-//                   source={{uri: `http://192.168.1.16:3000/myhire/file/${this.state.MyProfile.photo}`}} 
+//                   source={{uri: `http://18.233.99.1:3000/myhire/file/${this.state.MyProfile.photo}`}} 
 //                   style={{height: 200, width: 180, borderRadius: 10}}
 //                 />
               
@@ -202,7 +202,7 @@ class Profile extends Component {
   async getMyData(){
    try{
     Axios.defaults.headers.common['Authorization'] = this.props.token;
-    const profile = await Axios.get('http://192.168.1.16:3000/myhire/by/')
+    const profile = await Axios.get('http://18.233.99.1:3000/myhire/by/')
     console.log(profile.data.result[0]);
     
     await this.setState({ 
@@ -218,7 +218,7 @@ class Profile extends Component {
     return (
       <View style={styles.container}>
           <View style={styles.header}></View>
-          <Image style={styles.avatar} source={{uri: `http://192.168.1.16:3000/myhire/file/${this.state.MyProfile.photo}`}}/>
+          <Image style={styles.avatar} source={{uri: `http://18.233.99.1:3000/myhire/file/${this.state.MyProfile.photo}`}}/>
           <View style={styles.body}>
             <View style={styles.bodyContent}>
               <Text style={styles.name}>{this.state.MyProfile.name}</Text>

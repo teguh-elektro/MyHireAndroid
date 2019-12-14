@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Axios from 'axios'
 import React, { Component } from 'react';
-import { Container, Header, Content, Form, Item, Picker, Icon, Button, Text } from 'native-base';
+import { View, Container, Header, Content, Form, Item, Picker, Icon, Button, Text, Title } from 'native-base';
 import { jwt } from '../../redux/actions/tokenAction'
 import { getEngineer } from '../../redux/actions/engineerActions'
 
@@ -26,7 +26,7 @@ class Hirring extends Component {
   _getProject = async () => {
       try{
         Axios.defaults.headers.common['Authorization'] = this.props.token;
-        const auth = await Axios.get('http://192.168.1.16:3000/myhire/readproject')
+        const auth = await Axios.get('http://18.233.99.1:3000/myhire/readproject')
         console.log(auth.data.result);
         await this.setState({
           project: auth.data.result
@@ -43,7 +43,7 @@ class Hirring extends Component {
     console.log(id);
     try{
       Axios.defaults.headers.common['Authorization'] = this.props.token;
-      const auth = await Axios.put('http://192.168.1.16:3000/myhire/changeproject',
+      const auth = await Axios.put('http://18.233.99.1:3000/myhire/changeproject',
         {
           id: selected.id,
           done: selected.done,
@@ -63,13 +63,31 @@ class Hirring extends Component {
   
    render() {
     const {project} = this.state;
-    
+    if(!project.length) {
+      return(
+        <Container>
+          <Header>
+            <Title style={{margin: 15}}>Project List</Title>
+          </Header>
+          <Content>
+              <View>
+                <Text style={{margin: 30, textAlign: "center"}}>
+                  Project list is empty!
+                </Text>
+              </View>
+          </Content>
+        </Container>
+        
+      )
+    }
     
     return (
       <Container>
-        <Header />
+        <Header>
+              <Title style={{margin: 15}}>Project List</Title>
+        </Header>
         <Content>
-          <Form>
+          <Form style={{margin: 30}}>
             <Item picker>
               <Picker
                 mode="dropdown"
@@ -90,12 +108,22 @@ class Hirring extends Component {
             </Item>
           </Form>
           <Button 
-                style={{margin: 15, borderRadius: 10}} 
+                style={{margin: 15, borderRadius: 10, justifyContent: "center"}} 
                 onPress = {()=>{this._sendProject(this.state.selected2)}}
                 // onPress={()=>{ this._sendProject(data.id, data.name, data.skill, data.description, data.budget, data.done)}}
             >
-              <Text>
+              <Text >
                 Send
+              </Text>
+            </Button>
+
+            <Button 
+                style={{backgroundColor: "white", margin: 15, borderRadius: 10, justifyContent: "center"}} 
+                onPress = {()=>{this.props.navigation.navigate("Home")}}
+                // onPress={()=>{ this._sendProject(data.id, data.name, data.skill, data.description, data.budget, data.done)}}
+            >
+              <Text style={{color: "#3F51B5"}}>
+                Cancel
               </Text>
             </Button>
         </Content>

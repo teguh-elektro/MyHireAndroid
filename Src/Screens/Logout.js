@@ -51,7 +51,7 @@ import { from } from 'rxjs';
         
         try{
             Axios.defaults.headers.common['Authorization'] = this.props.token;
-            await Axios.get('http://192.168.1.16:3000/myhire/logout')
+            await Axios.get('http://18.233.99.1:3000/myhire/logout')
             Axios.defaults.headers.common['Authorization'] = '0';
             await this.props.reduxLogin(false)
             await this.props.reduxCategory(0)
@@ -66,9 +66,11 @@ import { from } from 'rxjs';
       return(
         <Container>
            <View
-            style={{height:200}}
-           />
-           <Text style={{textAlign: "center", fontSize: 16}}>Are Sure To Log Out?</Text>
+            style={{height:150}}
+           >
+             <Text style={{top: 70, alignSelf:'center', fontWeight: "bold" ,fontSize: 40}}>Log Out</Text>
+           </View>
+           <Text style={{margin:30, textAlign: "center", fontSize: 16}}>Are you Sure To Log Out?</Text>
            <Button 
                 onPress={() => {this._sendLogout()}}
                 style={{margin: 15, borderRadius: 10}} 
@@ -77,6 +79,17 @@ import { from } from 'rxjs';
               <Left/>
                 <Text>
                   Yes
+                </Text>
+              <Right />
+            </Button>
+            <Button 
+                onPress={() => {this.props.navigation.navigate("Home")}}
+                style={{margin: 15, borderRadius: 10, backgroundColor: "white"}} 
+                // onPress={this.props.loggedIn === false ? () => this.props.reduxLogin(true) : () => this.props.reduxLogin(false)}
+            >
+              <Left/>
+                <Text style={{color: "#3F51B5"}}>
+                  No
                 </Text>
               <Right />
             </Button>

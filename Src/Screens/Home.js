@@ -4,7 +4,10 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Image } from 'react-native';
 import { ActivityIndicator,    
-  ScrollView } from 'react-native'
+StyleSheet,
+ScrollView,
+TouchableOpacity ,
+SafeAreaView } from 'react-native'
 import {AsyncStorage} from 'react-native';
 import SignIn from './Login'
 import SignUp from './Regist'
@@ -12,6 +15,7 @@ import Profile from './Profile'
 import Project from './Project'
 import Logout from './Logout'
 import { connect } from 'react-redux';
+import { FlatGrid } from 'react-native-super-grid';
 // Imports: Redux Actions
 // Imports: Redux Actions
 import { login } from '../../redux/actions/authActions';
@@ -19,6 +23,7 @@ import { increaseCounter, decreaseCounter } from '../../redux/actions/counterAct
 import { jwt } from '../../redux/actions/tokenAction'
 import { getEngineer } from '../../redux/actions/engineerActions'
 import { role } from '../../redux/actions/categoryAction'
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { 
     Container, 
     Header, 
@@ -35,7 +40,6 @@ import {
     Text,
     View,
     Picker,
-    Icon,
     Footer, 
     FooterTab,
     Card, 
@@ -64,7 +68,7 @@ class Home extends React.Component {
 
     getData = async () => {
         try {
-            const result = await Axios.get(`http://192.168.1.16:3000/engineer/read`)
+            const result = await Axios.get(`http://18.233.99.1:3000/engineer/read`)
             console.log(result.data.result);
             
             this.setState({data: result.data, isLoading: false})
@@ -84,7 +88,7 @@ class Home extends React.Component {
           const search = this.state.search
           console.log(search);
           
-          const result = await Axios.get(`http://192.168.1.16:3000/myhire/search/?skill=${search}`)
+          const result = await Axios.get(`http://18.233.99.1:3000/myhire/search/?skill=${search}`)
           console.log(result.data.result);
           this.setState({data: result.data.result, isLoading: false})
       } catch (error) {
@@ -100,7 +104,7 @@ class Home extends React.Component {
         
         if(isLoading){
             return(
-                <ActivityIndicator size='large' style={{flex: 1, backgroundColor: '#f5f5f5', opacity: 0.5}} color='#e74c3c' />
+                <ActivityIndicator size='large' style={{flex: 1, backgroundColor: '#f5f5f5', opacity: 0.5}} color='#3F51B5' />
             )
         }  
       return (
@@ -111,7 +115,6 @@ class Home extends React.Component {
            {
              (this.props.loggedIn)&&
              <Item style={{left:20}}>
-                <Icon name="ios-search" />
                 <Input placeholder="Search" 
                   onChangeText={value => this.setState({search: value})}
                 />
@@ -124,30 +127,46 @@ class Home extends React.Component {
                <Button
                 onPress = {()=>this.searchSkill()}
                >
-                  <Text>Go</Text>
+                   <Icon name="search" style={{margin: 10, fontSize: 20, color: "white"}}/>
                 </Button>
              </Left>
              
            }
             
         </Header>        
-        <Content>
+        {/* <Content>
         
         {
             data.map((product, index) => (
-            <Card style={{flex: 0, justifyContent :'center', width : 260, left : 30}} key={index}>
+            <Card style={{flex: 0, justifyContent :'center', width:280}} key={index}>
                 <CardItem button onPress={() => {(this.props.category)&&this._setIdEngineer(product.created_by)}}>
                 <Body>
                     
                     <Image 
-                        source={{uri: `http://192.168.1.16:3000/myhire/file/${product.photo}`}} 
-                        style={{height: 240, width: 240, flex: 1, right : 8, borderRadius  : 10}}
+                        source={{uri: `http://18.233.99.1:3000/myhire/file/${product.photo}`}} 
+                        style={{height: 240, width: 240,margin:2, borderRadius  : 10, alignItems : 'center'}}
                         
                     />
-                    <View style={{ alignItems : 'center', flex : 0, left : 70}}>
-                      <Text style={{justifyContent : 'center'}}> 
+                    <View style={{ alignItems : 'center', flex : 0, left : 50}}>
+                      <Text 
+                        style={{
+                          justifyContent : 'center',
+                          fontSize: 20
+                        }}
+                      > 
                         {product.name}
                       </Text>
+                      
+                      <Text
+                        style={{
+                          fontSize:16,
+                          color: "#3F51B5",
+                          marginTop:10
+                        }}
+                      >
+                        {product.profession}
+                      </Text>
+
                       <Text
                         style={{
                           fontSize:16,
@@ -161,42 +180,62 @@ class Home extends React.Component {
                 </Body>
                 </CardItem>
                 <CardItem style={{flex: 1}}>
-                  <Icon name="settings" 
+                  <Icon name="check-circle" 
                         style={{
+                          margin: 10, 
+                          fontSize: 20,
                           color: "#3F51B5"
                   }}/> 
                   <Text>{(product.project)?product.project:'0'}</Text>
                   <Right/>
-                  <Icon name="pie" 
+                  <Icon name="star" 
                         style={{
+                          margin: 10, 
+                          fontSize: 20,
                           color: "#3F51B5"
                   }}/> 
                   <Text>{(product.done)?(product.done/product.project*100):'0'}%</Text>
-                {/* <Left>
-                    <Icon name="logo-github" 
-                      style={{
-                        fontSize:16,
-                        color: "#3F51B5",
-                        marginTop:10
-                    }}/> 
-                    <Text>Project:{product.project}</Text>
-                </Left>
-                <Right>
-                    <Icon name="alarm" 
-                      style={{
-                        fontSize:16,
-                        color: "#3F51B5",
-                        marginTop:10
-                    }}/> 
-                    <Text>Rate:{product.done}</Text>
-                </Right> */}
                 </CardItem>
             </Card>
             ))  
         } 
         </Content>
-        
-        
+         */}
+        <Content>
+          <FlatGrid
+              itemDimension={130}
+              items={data}
+              style={styles.gridView}
+              renderItem={({ item, index }) => (
+                  <TouchableOpacity style={styles.itemContainer} onPress={() => { (this.props.category)&&this._setIdEngineer(item.created_by) } }>
+                      <Image source={{ uri: `http://18.233.99.1:3000/myhire/file/${item.photo}` }} style={{ flex: 1, borderRadius: 5 }} />
+                      <View style={styles.name} >
+                          <Text style={{ color: '#fff', fontSize:20}}>{item.name}</Text>
+                          <Text style={{ color: '#fff' }}>{item.skill}</Text>
+                          
+                          <View style={{flex:1, flexDirection:"row"}}>
+                            
+                          <Text style={{ color: "white"}}><Icon name="check" 
+                            style={{
+                              margin: 1, 
+                              fontSize: 16,
+                              color: "green",
+                            }}/>   {(item.project)?item.project:'0'}</Text>
+
+                        <Text style={{right:0, color: "white", position:"absolute", textAlign: "center"}}><Icon name="star-half-alt" 
+                          style={{
+                            margin: 5, 
+                            fontSize: 16,
+                            color: "yellow",
+                            alignItems: "flex-end",
+                      }}/>{(item.done)?(item.done/item.project*100):'0'}% </Text>
+                          </View>
+                         
+                      </View>
+                  </TouchableOpacity>
+              )}
+          />
+        </Content>
         {
           (!this.props.loggedIn)?
           <Footer>
@@ -218,7 +257,7 @@ class Home extends React.Component {
                 full 
                 onPress={() => this.props.navigation.navigate('Profile')} 
               >
-                <Icon name="person" />
+                <Icon name="user-alt" style={{fontSize: 24, color: "white"}}/>
                 <Text>Profile</Text>
               </Button>
             </FooterTab>
@@ -230,10 +269,8 @@ class Home extends React.Component {
                   this.props.navigation.navigate('EngineerProject');
                  } 
                 }
-                badge vertical 
               >
-              <Badge><Text>2</Text></Badge>
-                <Icon name="settings" />
+                <Icon name="suitcase" style={{fontSize: 24, color: "white"}} />
                 <Text>Project</Text>
               </Button>
             </FooterTab>
@@ -241,7 +278,7 @@ class Home extends React.Component {
               <Button full 
                 onPress={() => this.props.navigation.navigate('Logout')}
               >
-                <Icon name="apps" />
+                <Icon name="sign-out-alt" style={{fontSize: 24, color: "white"}}/>
                 <Text>Log out</Text>
               </Button>
             </FooterTab>
@@ -295,5 +332,38 @@ const mapStateToProps = (state) => {
      };
   };
   
+
+  const styles = StyleSheet.create({
+    gridView: {
+      marginTop: 20,
+        flex: 1,
+    },
+    name: {
+        width:'100%',
+        position: 'absolute',
+        color: '#fff',
+        backgroundColor: "rgba(0, 0, 0, 0.7)" ,
+        paddingLeft: 5,
+        paddingBottom: 10
+        
+    },
+
+    itemContainer: {
+        justifyContent: 'flex-end',
+        borderRadius: 100,
+        height: 200,
+        position: 'relative'
+    },
+    itemName: {
+        fontSize: 16,
+        color: '#fff',
+        fontWeight: '600',
+    },
+    itemCode: {
+        fontWeight: '600',
+        fontSize: 12,
+        color: '#fff',
+    },
+});
   // Exports
   export default connect(mapStateToProps, mapDispatchToProps)(Home)

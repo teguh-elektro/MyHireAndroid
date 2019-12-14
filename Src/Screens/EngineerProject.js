@@ -7,7 +7,7 @@ import { login } from '../../redux/actions/authActions';
 import { increaseCounter, decreaseCounter } from '../../redux/actions/counterActions';
 import { getEngineer } from '../../redux/actions/engineerActions'
 import { jwt } from '../../redux/actions/tokenAction'
-
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import React, { Component } from 'react';
 import { Container, Header, Content, List, ListItem, Left, Body, Right, Thumbnail, Text, View, Button } from 'native-base';
 
@@ -26,7 +26,7 @@ class EngineerProject extends React.Component {
     _getProject = async () => {
         try{
           Axios.defaults.headers.common['Authorization'] = this.props.token;
-          const auth = await Axios.get('http://192.168.1.16:3000/myhire/readproject')
+          const auth = await Axios.get('http://18.233.99.1:3000/myhire/readproject')
           console.log(auth.data.result);
           await this.setState({
             project: auth.data.result
@@ -41,7 +41,7 @@ class EngineerProject extends React.Component {
         console.log(id);
         
         Axios.defaults.headers.common['Authorization'] = this.props.token;
-        const auth = await Axios.put('http://192.168.1.16:3000/myhire/statusproject',
+        const auth = await Axios.put('http://18.233.99.1:3000/myhire/statusproject',
           {
             id,
             status 
@@ -82,21 +82,33 @@ class EngineerProject extends React.Component {
                       <Text note>Rp.{data.budget}</Text>
                     </Body>
                     <View>
-                    {
-                        (data.status != '1')?
+                    
+                    { 
+                          (!data.status)&&
                           <Button      
-                            onPress={() => {this._changeStatus(data.id, 1)}}
-                            style={{margin: 15, borderRadius: 10}} 
-                          >
-                          <Text>Decline</Text>
-                          </Button>
-                          :
-                          <Button      
-                          onPress={() => {this._changeStatus(data.id, 0)}}
-                          style={{margin: 15, borderRadius: 10}} 
+                          onPress={() => {this._changeStatus(data.id, 1)}}
+                          style={{backgroundColor:"green", width:100, height: 30, justifyContent:"center", borderRadius: 10, margin: 2}}
                         >
                         <Text>Accept</Text>
                         </Button>
+                    }
+                    {
+                        (!data.status)&&
+                          <Button      
+                            onPress={() => {this._changeStatus(data.id, 2)}}
+                            style={{backgroundColor:"red", width:100, height: 30, justifyContent:"center", borderRadius: 10, margin: 2}} 
+                          >
+                          <Text>Decline</Text>
+                          </Button>
+                    }
+                    {
+                        (data.status === 1)&&
+                          <Icon name="check" style={{margin: 2, fontSize:20, color:"green"}}></Icon>
+                    }
+                    {
+                        (data.status === 2)&&
+                        <Icon name="times" style={{margin: 2, fontSize:20, color:"red"}}></Icon>
+                        
                     }
                     </View>
                   </ListItem>

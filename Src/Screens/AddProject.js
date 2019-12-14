@@ -59,7 +59,7 @@ let isLogin = 0;
     _sendProject = async () => {
         isLogin = 0; 
         try{
-          const auth = await Axios.post('http://192.168.1.16:3000/myhire/createproject',
+          const auth = await Axios.post('http://18.233.99.1:3000/myhire/createproject',
               {
                     name: this.state.name,
                     skill: this.state.skill,
