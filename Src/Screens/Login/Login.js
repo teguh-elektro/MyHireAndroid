@@ -40,7 +40,6 @@ import {
     Accordion,
     Badge 
 } from 'native-base';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 
 let isLogin = 0;  
 

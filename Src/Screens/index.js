@@ -3,17 +3,17 @@ import React from 'react';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
-import SignIn from './Login'
-import SignUp from './Regist'
-import Profile from './Profile'
-import Project from './Project'
-import Logout from './Logout'
-import Home from './Home'
-import ProjectList from './ProjectList'
-import Hirring from './hirring'
-import Review from './Review'
-import EngineerProject from './EngineerProject'
-import AddProject from './AddProject'
+import SignIn from './Login/Login'
+import SignUp from './Register/Regist'
+import Profile from './Profile/Profile'
+import Project from './Project/Project'
+import Logout from './Logout/Logout'
+import Home from './Home/Home'
+import ProjectList from './Project/ProjectList'
+import Hirring from './Project/hirring'
+import Review from './Profile/Review'
+import EngineerProject from './Project/EngineerProject'
+import AddProject from './Project/AddProject'
 const AppNavigator = createStackNavigator(
     {
       Home: Home,

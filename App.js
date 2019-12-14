@@ -22,7 +22,7 @@ import { Text } from 'native-base'
 // import Counter from './screens/Counter';
 
 // Imports: Redux Persist Persister
-import { store, persistor } from './redux/store/store';
+import { store, persistor } from './Src/redux/store/store';
 
 const AppContainer = createAppContainer(AppNavigator);
 // React Native: App
